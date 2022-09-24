@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View ,TextInput, Button} from 'react-native';
 import React,{useState} from 'react';
 
-export default function Input(onAdd) {
+export default function Input({onAdd}) {
     
     const [text,setText]=useState("");
     return (
