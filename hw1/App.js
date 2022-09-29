@@ -12,7 +12,7 @@ export default function App() {
 
   
   
-  const target=1021;
+  const [target,setTarget]=useState(1020+Math.floor(Math.random() * 10));
   const [text,setText]=useState("");
   const [isStarting,setIsStarting]=useState(true);
   const [isGame,setIsGame]=useState(false);
@@ -60,8 +60,10 @@ export default function App() {
       setLose={setLose}
       win={win}
       setWin={setWin}
+      target={target}
+      setTarget={setTarget}
       />}    
-
+       <Text>target:{target} inputed:{text}</Text>
       <StatusBar style="auto" />
     </View>
   );

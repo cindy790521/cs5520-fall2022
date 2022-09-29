@@ -11,7 +11,9 @@ export default function Final({
       lose,
       setLose,
       win,
-      setWin}) {
+      setWin,
+      target,
+    setTarget}) {
     
     
     return (
@@ -34,6 +36,7 @@ export default function Final({
             setLose(false);
             setIsStarting(true);
             setText("");
+            setTarget(1020+Math.floor(Math.random() * 10));
         }}
         />
         </View>
