@@ -9,8 +9,8 @@ It shows a card (a view with rounded corner and shadow) with a TextInput and two
 ![Alt text](./images/screenshots/game_incorrect.png?raw=true "game_incorrect")  
 This screen is shown in a modal, which shows a message to the user notifying them if the number they entered matches what you have chosen (which means they have won the game) or if it's bigger or smaller. If they have won they will see another message congratulating them. If they haven't won, users can choose to continue the game (taken back to the starting game to guess again) or choose to end the game.  
 Final screen:  
-![Alt text](./images/screenshots/final_win.png?raw=true "final_win")  
-![Alt text](./images/screenshots/final_lose.png?raw=true "final_lose")
+![Alt text](./images/screenshots/final_win.png?raw=true "final_win")
+![Alt text](./images/screenshots/final_lose.png?raw=true "final_lose")  
 When the user chooses to finish the game or if they have guessed the chosen number correctly, they will be shown the final screen. On this screen,  
 (1)if they have correctly guessed the number they will see an image with a URL constructed based on the chosen value, e.g. if the chosen value is 1024 the URL should be https://picsum.photos/id/1024/100/100
 (2)If they had chosen to finish the game without guessing correctly, show them a sad smiley face .  
