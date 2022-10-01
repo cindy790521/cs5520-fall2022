@@ -69,6 +69,7 @@ export default function App() {
             target={target}
             setTarget={setTarget}
           />}
+          <Text >target:{target} input:{text}</Text>
       </LinearGradient>
     </View>
   );

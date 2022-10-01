@@ -49,6 +49,7 @@ export default function Final({
                   setWin(false);
                   setIsStarting(true);
                   setText("");
+                  setTarget(1020 + Math.floor(Math.random() * 10));
                 }} />
             </View>
           }
