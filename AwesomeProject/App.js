@@ -1,13 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, SafeAreaView,ScrollView, FlatList } from 'react-native';
 import Header from './components/Header.js';
 import React, { useState } from 'react';
 import Input from './components/Input.js';
+import GoalItem from './components/GoalItem.js';
 
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const onTextAdd = function (newText) {
+    const newGoal={text:newText,key:Math.random()}
+    setGoals((prevgoals)=>{
+      return [...prevgoals,newGoal]
+    });
+    // setGoals([...goals,newGoal]);
+    console.log(goals);
     console.log(newText);
     setModalVisible(false);
   }
@@ -16,6 +23,14 @@ export default function App() {
   const [text, setText] = useState("");
   const makeModalVisible = () => { setModalVisible(true) }
   const makeModalInvisible = () => { setModalVisible(false) }
+
+  const[goals,setGoals]=useState([]);
+
+  const onDelete=function(deletedKey){
+    setGoals(goals.filter(goal=>{return goal.key!=deletedKey}));
+    
+}
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
@@ -25,9 +40,29 @@ export default function App() {
       </View>
 
       <View style={styles.bottomContainer}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>you typed...{text}</Text>
-        </View>
+      
+      {/* <ScrollView contentContainerStyle={styles.scrollviewItems}>
+          {goals.map((goal)=>{return (
+            //the parent view of ScrollViewneed to have a height
+          <View key={goal.key} style={styles.textContainer}>
+            <Text style={styles.text}>{goal.text}</Text>
+            </View>
+            )})}
+              </ScrollView> */}
+
+<FlatList data={goals} 
+renderItem={({item})=>{
+  console.log(item);
+  return(
+<GoalItem goal={item} onDelete={onDelete}/>
+  )}}
+contentContainerStyle={styles.scrollviewItems}>
+          
+              </FlatList>
+
+              
+          <Text style={styles.text}>you typed...</Text>
+        
       </View>
       <Input modal={modalVisible} onAdd={onTextAdd} onCancel={makeModalInvisible} />
 
@@ -53,15 +88,21 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 4,
     backgroundColor: 'pink',
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   textContainer: {
     backgroundColor: "#aaa",
     borderRadius: 5,
-    color: 'blue'
+    color: 'blue',
+    padding:15,
+    margin:20
   },
   text: {
+// fontSize:20
 
-
+  },
+  scrollviewItems:{
+    alignItems: 'center'
   }
+
 });

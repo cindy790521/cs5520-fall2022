@@ -18,7 +18,8 @@ export default function Input({onAdd,modal,onCancel}) {
         placeholder="type sth"
         style={styles.input}
         />
-        <View style={styles.button,styles.buttonContainer}>
+        <View style={styles.buttonContainer}>
+        <View style={styles.button}>
         <Button
         title="confirm"
         onPress={()=>{
@@ -28,8 +29,10 @@ export default function Input({onAdd,modal,onCancel}) {
         disabled={text.length?false:true}
         // if onAdd not in a function, will render repeatedly
         />
-        
+        </View>
+        <View style={styles.button}>
         <Button title="cancel" onPress={onCancel}/>
+        </View>
         </View>
         <Text>inputed:{text}</Text>
       </View>
@@ -48,7 +51,7 @@ export default function Input({onAdd,modal,onCancel}) {
       borderBottomWidth:2,
       borderBottomColor:'purple',
       margin:5,
-      padding:10
+      // padding:10
     },
     button:{
       margin:5,
