@@ -31,6 +31,10 @@ export default function App() {
     
 }
 
+function itemPressed()
+{
+  console.log("item pressed")
+}
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
@@ -54,7 +58,7 @@ export default function App() {
 renderItem={({item})=>{
   console.log(item);
   return(
-<GoalItem goal={item} onDelete={onDelete}/>
+<GoalItem goal={item} onDelete={onDelete} onItemPress={itemPressed}/>
   )}}
 contentContainerStyle={styles.scrollviewItems}>
           
