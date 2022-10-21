@@ -1,112 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, Button, SafeAreaView,ScrollView, FlatList } from 'react-native';
-import Header from './components/Header.js';
-import React, { useState } from 'react';
-import Input from './components/Input.js';
-import GoalItem from './components/GoalItem.js';
+import React from 'react';
+import Home from './components/Home.js';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import GoalDetails from './components/GoalDetails.js';
+import { Button} from 'react-native'
 
-export default function App() {
-  const [modalVisible, setModalVisible] = useState(false);
 
-  const onTextAdd = function (newText) {
-    const newGoal={text:newText,key:Math.random()}
-    setGoals((prevgoals)=>{
-      return [...prevgoals,newGoal]
-    });
-    // setGoals([...goals,newGoal]);
-    console.log(goals);
-    console.log(newText);
-    setModalVisible(false);
-  }
-
-  const name = "my app";
-  const [text, setText] = useState("");
-  const makeModalVisible = () => { setModalVisible(true) }
-  const makeModalInvisible = () => { setModalVisible(false) }
-
-  const[goals,setGoals]=useState([]);
-
-  const onDelete=function(deletedKey){
-    setGoals(goals.filter(goal=>{return goal.key!=deletedKey}));
-    
-}
-
-function itemPressed()
-{
-  console.log("item pressed")
-}
-  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.topContainer}>
-        {/* <Text>Open up App.js to start working on {name}!</Text> */}
-        <Header appName={name} />
-        <Button title="add a goal" onPress={makeModalVisible} />
-      </View>
-
-      <View style={styles.bottomContainer}>
-      
-      {/* <ScrollView contentContainerStyle={styles.scrollviewItems}>
-          {goals.map((goal)=>{return (
-            //the parent view of ScrollViewneed to have a height
-          <View key={goal.key} style={styles.textContainer}>
-            <Text style={styles.text}>{goal.text}</Text>
-            </View>
-            )})}
-              </ScrollView> */}
-
-<FlatList data={goals} 
-renderItem={({item})=>{
-  console.log(item);
+const Stack=createNativeStackNavigator()
+function rightButtonPressed(){console.log("rightButtonPressed");}
+function rightButton(){
   return(
-<GoalItem goal={item} onDelete={onDelete} onItemPress={itemPressed}/>
-  )}}
-contentContainerStyle={styles.scrollviewItems}>
-          
-              </FlatList>
-
-              
-          <Text style={styles.text}>you typed...</Text>
-        
-      </View>
-      <Input modal={modalVisible} onAdd={onTextAdd} onCancel={makeModalInvisible} />
-
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    <Button
+    title="Urgent"
+    onPress={rightButtonPressed}
+    />
+  )
+}
+export default function App() {
+  
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ 
+        headerStyle:{backgroundColor:"#995099"},
+        headerTintColor:"#fff",
+        headerTitleAlign:"center"
+        }}>
+        <Stack.Screen 
+        name="Home" 
+        component={Home} 
+        options=
+        {{title:"All my goals", 
+        // headerStyle:{backgroundColor:"#995099"},
+        // headerTintColor:"#fff"
+        }}
+        />
+        <Stack.Screen 
+        name="GoalDetails" 
+        component={GoalDetails}
+        options={({route,navigation})=>{
+          return {
+            title:route.params.goalObject.text, 
+            headerRight:rightButton}}}
+        />
+    {/* <Home/> */}
+    </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
+// const styles = StyleSheet.create({
+  
 
-    flex: 1,
-    backgroundColor: '#fff',
-    // alignItems: 'center',
-    justifyContent: 'center',
-    // flexDirection:'row'
-  },
-  topContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bottomContainer: {
-    flex: 4,
-    backgroundColor: 'pink',
-    // alignItems: 'center',
-  },
-  textContainer: {
-    backgroundColor: "#aaa",
-    borderRadius: 5,
-    color: 'blue',
-    padding:15,
-    margin:20
-  },
-  text: {
-// fontSize:20
-
-  },
-  scrollviewItems:{
-    alignItems: 'center'
-  }
-
-});
+// });
