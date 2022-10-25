@@ -1,19 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button, SafeAreaView,ScrollView, FlatList } from 'react-native';
 import Header from './Header.js';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Input from './Input.js';
 import GoalItem from './GoalItem.js';
-
-
+import {writeToDB,deleteFromDB} from '../firebase/firestore';
+import { onSnapshot, QuerySnapshot ,where,collection,query} from 'firebase/firestore';
+import {firestore} from '../firebase/firebase-setup';
 export default function Home({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const onTextAdd = function (newText) {
-    const newGoal={text:newText,key:Math.random()}
-    setGoals((prevgoals)=>{
-      return [...prevgoals,newGoal]
+  useEffect(()=>{
+    const unsubscribe=onSnapshot(collection(firestore,'Goals'),(querySnapshot)=>{
+      if(querySnapshot.empty){
+        setGoals([]);
+        return;
+      }
+      setGoals(
+        querySnapshot.docs.map((snapDoc)=>{
+          let data=snapDoc.data();
+          data={...data,key:snapDoc.id};
+          return data;
+        })
+      );
     });
+    return ()=>{unsubscribe()};
+  },[]);
+
+  const onTextAdd = async function (newText) {
+    const newGoal={text:newText,key:Math.random()};
+    await writeToDB({text:newText});
+    // setGoals((prevgoals)=>{
+    //   return [...prevgoals,newGoal]
+    // });
     // setGoals([...goals,newGoal]);
     console.log(goals);
     console.log(newText);
@@ -27,8 +46,10 @@ export default function Home({navigation}) {
 
   const[goals,setGoals]=useState([]);
 
-  const onDelete=function(deletedKey){
-    setGoals(goals.filter(goal=>{return goal.key!=deletedKey}));
+  async function onDelete(deletedKey){
+    console.log('delete pressed',deletedKey)
+    await deleteFromDB(deletedKey);
+    //  setGoals(goals.filter(goal=>{return goal.key!=deletedKey}));
     
 }
 
@@ -56,7 +77,7 @@ function itemPressed(goal)
             </View>
             )})}
               </ScrollView> */}
-
+{console.log('goals:',goals)}
 <FlatList data={goals} 
 renderItem={({item})=>{
   console.log(item);
