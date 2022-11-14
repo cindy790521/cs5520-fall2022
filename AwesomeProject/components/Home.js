@@ -6,12 +6,17 @@ import Input from './Input.js';
 import GoalItem from './GoalItem.js';
 import {writeToDB,deleteFromDB} from '../firebase/firestore';
 import { onSnapshot, QuerySnapshot ,where,collection,query} from 'firebase/firestore';
-import {firestore} from '../firebase/firebase-setup';
+import {firestore,auth} from '../firebase/firebase-setup';
 export default function Home({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(()=>{
-    const unsubscribe=onSnapshot(collection(firestore,'Goals'),(querySnapshot)=>{
+    const unsubscribe=onSnapshot(
+    query(
+      collection(firestore,'Goals'),
+      where('user','==',auth.currentUser.uid)
+    ),
+      (querySnapshot)=>{
       if(querySnapshot.empty){
         setGoals([]);
         return;

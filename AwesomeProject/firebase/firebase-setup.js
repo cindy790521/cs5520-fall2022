@@ -1,6 +1,9 @@
 import { initializeApp } from 'firebase/app'; 
 import { getFirestore } from 'firebase/firestore'; 
 import{apiKey,authDomain,projectId,storageBucket,messagingSenderId,appId} from'@env';
+// import { getAuth } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import { initializeAuth , getReactNativePersistence} from 'firebase/auth';
 // To import a Firebase service, use this pattern: import {} from 'firebase/<service>'
 //Your web app's Firebase configuration. 
 // Copy this object from Firebase console
@@ -15,3 +18,6 @@ const firebaseConfig = {
  } ;
 const myApp = initializeApp(firebaseConfig); 
 export const firestore = getFirestore(myApp);
+// export const auth = getAuth(myApp);
+export const auth = initializeAuth(myApp, {
+  persistence: getReactNativePersistence(AsyncStorage) });
