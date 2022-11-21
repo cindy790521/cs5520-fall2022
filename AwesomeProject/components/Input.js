@@ -1,9 +1,16 @@
 import { StyleSheet, Text, View ,TextInput, Button,Modal,Image} from 'react-native';
 import React,{useState} from 'react';
+import ImageManager from './ImageManager.js';
+import { setIndexConfiguration } from 'firebase/firestore';
 
 export default function Input({onAdd,modal,onCancel}) {
     
     const [text,setText]=useState("");
+    const [uri,setUri]=useState("");
+    const imageHandler=(uri)=>{
+      console.log('imageHandler called',uri);
+      setUri(uri);
+    }
     return (
       <Modal visible={modal}>
       <View style={styles.container}>
@@ -18,18 +25,22 @@ export default function Input({onAdd,modal,onCancel}) {
         placeholder="type sth"
         style={styles.input}
         />
+        <ImageManager imageHandler={imageHandler}/>
         <View style={styles.buttonContainer}>
+
         <View style={styles.button}>
         <Button
         title="confirm"
         onPress={()=>{
-            onAdd(text);
+            onAdd({text, uri});
             setText("");
         }}
         disabled={text.length?false:true}
         // if onAdd not in a function, will render repeatedly
         />
         </View>
+
+
         <View style={styles.button}>
         <Button title="cancel" onPress={onCancel}/>
         </View>
