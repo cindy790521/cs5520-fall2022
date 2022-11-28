@@ -18,7 +18,7 @@ export default function ImageManager({imageHandler}) {
 
     const takeImageHandler = async () => { 
         try {
-        const hasPermission=verifyPermission();
+        const hasPermission=await verifyPermission();
         if(!hasPermission){
           return;
         }

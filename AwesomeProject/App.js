@@ -9,6 +9,7 @@ import Signup from './components/Signup.js';
 import{onAuthStateChanged,signOut} from 'firebase/auth';
 import {auth} from './firebase/firebase-setup.js';
 import Profile from './components/Profile.js';
+import Map from './components/Map.js';
 
 
 const Stack=createNativeStackNavigator()
@@ -107,6 +108,11 @@ export default function App() {
                }
               }
             }
+            />
+
+          <Stack.Screen 
+            name="Map" 
+            component={Map} 
             />
     
             
