@@ -35,6 +35,8 @@
       "cameraPermission": "The app needs access to your camera, so you can store images related to each task." ,
       "cameraRollPermission": "The app needs access to your camera roll, so you can store images related to each task." 
     }
-      ] ]      
+      ] ,
+    ["expo-notifications",{"color":"#ffff00"}]
+    ]      
   }
 }

@@ -8,9 +8,43 @@ import {writeToDB,deleteFromDB} from '../firebase/firestore';
 import { onSnapshot, QuerySnapshot ,where,collection,query} from 'firebase/firestore';
 import {firestore,auth,storage} from '../firebase/firebase-setup';
 import {ref,uploadBytes} from 'firebase/storage';
+import * as Notifications from 'expo-notifications' ;
+import {verifyPermission} from './NotificationHandler';
 
 export default function Home({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  
+  const verifyPermission = async () => {
+    const permissionStatus = await Notifications.getPermissionsAsync();
+    if (permissionStatus.granted) {
+      return true;
+    }
+    const requestedPermission = await Notifications.requestPermissionsAsync({
+      ios: {
+        allowBadge: true,
+      },
+    });
+    return requestedPermission.granted;
+  };
+
+
+useEffect(() => {
+  const getPushToken = async () => {
+    const hasPermission = verifyPermission();
+    if (!hasPermission) {
+      return;
+    }
+    try {
+      const token = await Notifications.getExpoPushTokenAsync();
+      console.log(token);
+    } catch (err) {
+      console.log("push token ", err);
+    }
+  };
+  getPushToken();
+}, []);
+
 
   useEffect(()=>{
     const unsubscribe=onSnapshot(
@@ -95,11 +129,14 @@ function itemPressed(goal)
   console.log("@",goal)
   navigation.navigate("GoalDetails",{goalObject:goal});
 }
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topContainer}>
         {/* <Text>Open up App.js to start working on {name}!</Text> */}
         <Header appName={name} />
+        
         <Button title="add a goal" onPress={makeModalVisible} />
       </View>
 
